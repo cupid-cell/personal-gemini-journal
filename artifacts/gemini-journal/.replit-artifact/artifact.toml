@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Personal Gemini Journal"
+description = "A private journaling workspace for thoughtful conversations with Gemini, with secure sign-in cues, saved reflections, and guided prompts designed for personal growth."
+version = "1.0.0"
+id = "artifacts/gemini-journal"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25686
+
+[services.development]
+run = "pnpm --filter @workspace/gemini-journal run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/gemini-journal", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/gemini-journal/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25686"
+BASE_PATH = "/"
